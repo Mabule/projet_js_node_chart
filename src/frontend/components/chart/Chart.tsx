@@ -79,8 +79,8 @@ export default function Chart(props){
             {
                 label: 'Nombre de décès',
                 data: tab,
-                borderColor: '#007261',
-                backgroundColor: 'rgba(0, 114, 97, 0.5)',
+                borderColor: '#4752C4',
+                backgroundColor: '#5865F2',
                 borderRadius: 7
             }
         ],

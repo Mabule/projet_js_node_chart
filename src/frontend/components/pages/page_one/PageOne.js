@@ -16,17 +16,19 @@ export default function PageOne(props){
         setTra(parseInt(val));
     }
 
-    document.onkeydown = (e) => {
-        let val = tra;
-        if(e.keyCode === 38 && c.indexOf(tra) !== 0){
-            val = c[c.indexOf(tra)-1];
-        }else if(e.keyCode === 40 && c.indexOf(tra) !== c.length-1){
-            val = c[c.indexOf(tra)+1];
+    window.addEventListener('load', () => {
+        document.querySelector('#bar').onkeydown = (e) => {
+            let val = tra;
+            if(e.keyCode === 38 && c.indexOf(tra) !== 0){
+                val = c[c.indexOf(tra)-1];
+            }else if(e.keyCode === 40 && c.indexOf(tra) !== c.length-1){
+                val = c[c.indexOf(tra)+1];
+            }
+            if(val !== tra ){
+                change(val);
+            }
         }
-        if(val !== tra ){
-            change(val);
-        }
-    }
+    });
 
     const c = [1, 2, 5, 10, 20, 25, 50, 75];
 

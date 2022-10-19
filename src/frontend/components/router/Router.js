@@ -21,18 +21,21 @@ export default function Router(props){
         }
     }, []);
 
-    return (
-        datas.length > 0 ?
-        <div id="router">{collection[props.window]}</div>
-        :
-        <img 
-            src="https://askcodez.com/images3/157446935584697.gif" 
-            alt="loadging"
-            style={{
-                width: "50px",
-                position: "absolute",
-                top: "calc(50% - 50px)",
-                left: "calc(50% - 50px)"
-            }}/>
+    return (<div id="router">
+        {
+            datas.length > 0 ?
+            collection[props.window]
+            :
+            <img 
+                src="https://askcodez.com/images3/157446935584697.gif" 
+                alt="loadging"
+                style={{
+                    width: "50px",
+                    position: "absolute",
+                    top: "calc(50% - 50px)",
+                    left: "calc(50% - 50px)"
+                }}/>
+        }
+    </div>
     );
 }

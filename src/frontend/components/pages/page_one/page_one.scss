@@ -1,0 +1,17 @@
+#bar{
+    width: 80%;
+    margin: 50px auto;
+
+    #title{
+        margin-bottom: 10px;
+
+        #select{
+            background-color: #202020;
+            padding: 3px 6px;
+            border-radius: 3px;
+            border-color: #B1D2DB;
+        
+            &:hover{cursor: pointer;}
+        }
+    }    
+}

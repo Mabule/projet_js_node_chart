@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const port = 8080;
-const { load, shori } = require('./tools');
+const { load, shori } = require('./utils/tools');
 
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");

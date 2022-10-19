@@ -1,70 +1,25 @@
-# Getting Started with Create React App
+# Sujet du projet
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+L’évaluation du module ECU6503 sera réalisée sous la forme d'un rendu de projet. Le projet devra être déposé sur AMETICE via la section prévue à cet effet. Attention de bien suivre les consignes sous peine de voir votre note sanctionnée de quelques points en moins.
 
-## Available Scripts
+## travail à réaliser
 
-In the project directory, you can run:
+Afin de valider les compétences acquises dans ce module, vous devez mettre en œuvre une application qui permet de charger des données issues d'une collection de fichier csv. Vous prendrez grand soin d'exploiter les avantages offerts par nodejs tels que la lecture/écriture asynchrone. Un exemple de données est à votre disposition à la fin du cours sur nodejs.
 
-### `npm start`
+Une fois les données chargées, vous mettrez à disposition de l'utilisateur des graphiques produits à partir de celles-ci. Ils devront être produit en mettant en œuvre à minima un processus de transformation (ex. un regroupement, un filtre, etc.).
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+La création des graphiques peuvent être réalisés par le biais d'une page web servie par l'application, ou plus simple, par le biais d'une image.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Lors du développement de votre application, vous veillerez à respecter une approche modulaire en privilégiant la programmation objet et les modules ES2015.
 
-### `npm test`
+## Présentation
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Lors de la dernière séance de TP vous disposerez de 15 minutes pour présenter votre application ainsi que le travail réalisé. Lors de cette présentation, vous mettrez en évidence les éléments techniques que vous avez adressés : gestion des aspects asynchrones, gestion de la consommation mémoire, optimisation du chargement des données, compatibilité (transtypage), gestion des dépendances, etc.
 
-### `npm run build`
+## Évaluation
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+La notation portera sur 20 points répartis comme suit :
+<ul>
+<li>15 points pour l'évaluation du travail réalisé à partir des éléments déposés lors du rendu</li>
+<li>5 points pour l'évaluation de la soutenance d'une durée de 15 minutes durant laquelle vous détaillerez ce que vous avez fait et mettrez en avant les choix techniques que vous avez fait, les difficultés rencontrées, et ferez un bilan sur votre travail.</li>
+</ul>

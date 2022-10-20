@@ -21,8 +21,8 @@ app.get('/getFile', async (req, res) => {
 
 app.get('/filterOn', async (req, res) => {
     const tab = await load(req.query.file);
-    const [executed, maxx] = shori(tab, req.query.filter);
-    res.send({message: executed, max: maxx});
+    const [executed, maxx] = shori(tab, req.query.filter, req.query);
+    res.send({executed, max: maxx});
 });
 
 app.listen(port, () => {

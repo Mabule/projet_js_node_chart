@@ -1,32 +1,31 @@
-import { useEffect, useState } from "react";
+import {useQueries} from '@tanstack/react-query'
 import { collect } from "../../utils/tools";
 import PageOne from "../pages/page_one/PageOne";
 import './router.scss';
 
 export default function Router(props){
+
+    const queries = useQueries({
+        queries: props.urls.map(url => {
+            return {
+                queryKey: ['url', url.id],
+                queryFn: () => collect(url)
+            }
+        })
+    })
     
-    const [datas, setDatas] = useState([])
-
-    const collection = {
-        'page1': <PageOne data={datas}/>
-    }; 
-
-    useEffect(() => {
-        for(let url in props.urls){
-            collect("get", props.urls[url]).then((response) => {
-                let tmp = [...datas];
-                tmp.push(response.data);
-                setDatas(tmp);
-            })
+    function getPage(window, data){
+        switch (window){
+            case'page1': 
+                return <PageOne data={data}/>; 
+            default:
+                return null
         }
-    }, []);
-
-    return (<div id="router">
-        {
-            datas.length > 0 ?
-            collection[props.window]
-            :
-            <img 
+    }
+    
+    switch(queries[0].status){
+        case 'loading':
+            return <img 
                 src="https://askcodez.com/images3/157446935584697.gif" 
                 alt="loadging"
                 style={{
@@ -34,8 +33,13 @@ export default function Router(props){
                     position: "absolute",
                     top: "calc(50% - 50px)",
                     left: "calc(50% - 50px)"
-                }}/>
-        }
-    </div>
-    );
+                }}/> 
+        case 'success':
+            const obj = getPage(props.window, queries[0].data.data);
+            return <div id="router">{obj}</div>;
+        case 'error':
+            return <div>{queries.error}</div>
+        default:
+            return <div>Une erreur est survenue</div>
+    }
 }

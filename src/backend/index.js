@@ -10,19 +10,19 @@ app.use((req, res, next) => {
     next();
 });
 
-app.get('/', (req, res) => {
-  res.send({message: "oui"})
+app.get('/', (_req, res) => {
+  res.send({message: "test"})
 })
 
 app.get('/getFile', async (req, res) => {
-    const tab = await load(req.query.file);
-    res.send({message: tab});
+    const message = await load(req.query.file);
+    res.send({ message });
 });
 
 app.get('/filterOn', async (req, res) => {
     const tab = await load(req.query.file);
-    const [executed, maxx] = shori(tab, req.query.filter, req.query);
-    res.send({executed, max: maxx});
+    const [executed, max] = shori(tab, req.query.filter, req.query);
+    res.send({executed, max});
 });
 
 app.listen(port, () => {

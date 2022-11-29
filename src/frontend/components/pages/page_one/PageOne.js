@@ -1,14 +1,13 @@
 import { useState } from "react";
 import Chart from '../../chart/Chart.tsx';
 import './page_one.scss';
-import {useQuery} from '@tanstack/react-query';
 import { collect } from "../../../utils/tools";
 
-export default function PageOne(props){
+export default function PageOne({ data }){
 
     const [tra, setTra] = useState(10);
-    const [tab, setTab] = useState(props.data.executed[0]);
-    const [labels, setLabels] = useState(props.data.executed[1]);
+    const [tab, setTab] = useState(data.executed[0]);
+    const [labels, setLabels] = useState(data.executed[1]);
 
     async function change(param = null){
         if(param !== null)
@@ -44,7 +43,7 @@ export default function PageOne(props){
     const c = [1, 2, 5, 10, 20, 25, 50, 75];
 
     return (
-        <div id="bar">
+        <div id="bar" className="page">
             <div id="title">
                 Sélection de la tranche d'âge&ensp;
                 <select onChange={() => change()} id="select" value={tra}>
@@ -56,7 +55,7 @@ export default function PageOne(props){
                 </select>
             </div>
             <div id="chart">
-                <Chart tranche={tra} donnees={tab} labels={labels} max={props.data.max}/>
+                <Chart donnees={tab} labels={labels}/>
             </div>
         </div>
     )

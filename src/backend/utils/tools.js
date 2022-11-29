@@ -45,7 +45,6 @@ const shori = (tab, filter, query) => {
                 }
             })
             res = res.filter(el => el.nb > 0);
-            console.log(maxx)
             const [result, labels] = treatment(res, maxx, parseInt(query.tranche));
             res = [result, labels];
             break;

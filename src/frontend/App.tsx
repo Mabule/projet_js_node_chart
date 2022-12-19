@@ -6,16 +6,16 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 export default function App(){
     
-    const [fenetre, setFenetre] =  useState('page1');
-    const [urls, setUrls] = useState(["filterOn?file=deces-2022-t2.txt&filter=age&tranche=10"]);
+    const [url, setUrl] = useState("filterOn?file=deces-2022-t2.txt&filter=age&tranche=10");
+    const [id, setId] = useState("page1");
 
     const queryClient = new QueryClient();
 
     return (
         <div id="body">
-            <Menu setFenetre={setFenetre} setUrls={setUrls}/>
+            <Menu setUrl={setUrl} setId={setId}/>
             <QueryClientProvider client={queryClient}>
-                <Router window={fenetre} urls={urls}/>
+                <Router url={url} id={id}/>
             </QueryClientProvider>
         </div>
     );

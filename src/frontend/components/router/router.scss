@@ -1,4 +1,26 @@
 #router{
-   width: 85vw;
+   width: 83vw;
    position: relative;
+
+   .page{
+      width: 95%;
+  
+      margin: 50px auto;
+      border: 2px solid #5865F2;
+      border-radius: 10px;
+      padding: 10px;
+  
+      #title{
+          margin-bottom: 10px;
+  
+          #select{
+              background-color: #202020;
+              padding: 3px 6px;
+              border-radius: 3px;
+              border-color: #B1D2DB;
+          
+              &:hover{cursor: pointer;}
+          }
+      }  
+  }
 }

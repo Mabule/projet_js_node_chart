@@ -1,11 +1,7 @@
 const parse = async (data) => {
     let tab = [];
-    // const s = data.split('\n');
-    let i = 0;
     for (const index in data) {
-        const j = i;
         new Promise((resolve, reject) => {
-            // console.log("thread: "+j);
             let p = false;
             if(data[index].replace(/\s/g, '').length === 0) p = true;
             const res = process(data[index]);
@@ -18,7 +14,6 @@ const parse = async (data) => {
         .catch(err => {
             console.log(err);
         })
-        i++;
     }
     return tab;
 }

@@ -2,8 +2,9 @@ const express = require('express');
 const app = express();
 const port = 8080;
 const { load, shori } = require('./utils/tools');
+const config = require('./env.json');
 
-app.use((req, res, next) => {
+app.use((_req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Vary", "Origin");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -20,9 +21,14 @@ app.get('/getFile', async (req, res) => {
 });
 
 app.get('/filterOn', async (req, res) => {
-    const tab = await load(req.query.file);
-    const [executed, max] = shori(tab, req.query.filter, req.query);
-    res.send({executed, max});
+    let executed = [null, null], options = null, status, tab; 
+    if(config.files.includes(req.query.file)){
+        tab = await load(req.query.file);
+        [executed, options, status] = shori(tab, req.query.filter, req.query);
+    } else {
+        status = 0;
+    }
+    res.send({tab: executed[0], labels: executed[1], options, status});
 });
 
 app.listen(port, () => {

@@ -1,5 +1,6 @@
 const fs = require('fs');
 const parse = require('./parse');
+const config = require('../env.json');
 
 const load = async(file) => {
     let tab = [];
@@ -21,37 +22,100 @@ async function readableToString(readable) {
     return result;
 }
 
+
 const shori = (tab, filter, query) => {
     let res = [];
-    for(let i = 0; i < 150; i++){
-        res.push({age: i, nb: 0, lst: []});
-    }
-    let maxx = 0;
-    switch(filter){
-        case 'age':
-            tab.forEach(el => {
-                const born = el['date de naissance'].split('-');
-                const death = el['date de décès'].split('-');
-                const age = calcAge(born, death);
-                try{
-                    res[age].nb++;
-                    res[age].lst.push(el);
-                    if(age > maxx) maxx = age;
-                }catch (e) {
-                    console.log("error for: "+age)
-                    console.log(res)
-                    console.log(el)
-                    console.log(e)
+    let options;
+    let status = 1;
+    if(config.filters.includes(filter)){
+        switch(filter){
+            case 'age':
+                for(let i = 0; i < 150; i++){
+                    res.push({age: i, nb: 0, lst: []});
                 }
-            })
-            res = res.filter(el => el.nb > 0);
-            const [result, labels] = treatment(res, maxx, parseInt(query.tranche));
-            res = [result, labels];
-            break;
-        default:
-            break;
+                if(config.slices.includes(parseInt(query.tranche)))
+                    res = ageFilter(tab, res, query);
+                else
+                    status = 0;
+                options = opt("Nombre de mort par tranche d'âge");
+                break;
+            case 'country':
+                res = countryFilter(tab);
+                options = opt("Nombre de mort français par pays");
+                break;
+            case 'date':
+                res = dateFilter(tab, query);
+                options = opt("Nombre de mort par date");
+                break;
+            default:
+                break;
+        }
+    } else {
+        status = 0;
     }
-    return [res, maxx];
+    
+    return [res, options, status];
+}
+
+function ageFilter(tab, res, query){
+    let maxx = 0;
+    tab.forEach(el => {
+        const born = el['date de naissance'].split('-');
+        const death = el['date de décès'].split('-');
+        const age = calcAge(born, death);
+        try{
+            res[age].nb++;
+            res[age].lst.push(el);
+            if(age > maxx) maxx = age;
+        }catch (e) {
+            console.log("error for: "+age);
+        }
+    })
+    res = res.filter(el => el.nb > 0);
+    return treatment(res, maxx, parseInt(query.tranche));
+}
+
+function countryFilter(tab){
+    let countries = [], nb_people = [], i = 0, max = 0, index_max;
+    tab.forEach(el => {
+        if(!countries.includes(el.pays)){
+            countries.push(el.pays);
+            nb_people.push(1);
+        } else {
+            let index = countries.indexOf(el.pays);
+            nb_people[index]++;
+            if(nb_people[index] > max){
+                max = nb_people[index];
+                index_max = index;
+            }
+        }
+        i++;
+    });
+    if(max >= i*0.5){
+        countries.splice(index_max, index_max+1);
+        nb_people.splice(index_max, index_max+1);
+    }
+    return [nb_people, countries];
+}
+
+function dateFilter(tab, query){
+    let dates = [];
+    let nb_people = [];
+    tab.sort((a,b) => new Date(a['date de décès']).getTime() - new Date(b['date de décès']).getTime());
+    tab.forEach(el => {
+        if(new Date(el['date de décès']) > new Date("2022-03-31")){
+            let date = new Date(el['date de décès']).toLocaleDateString('fr-FR');
+            if(dates.includes(date)){
+                let index = dates.indexOf(date);
+                nb_people[index]++;
+            } else {
+                dates.push(date);
+                nb_people.push(1);
+            }
+        }
+    })
+
+    return [nb_people, dates];
 }
 
 function calcAge(born, death){
@@ -91,6 +155,31 @@ function treatment(tab, maxx, tranche){
 
 const s = (min, maxx) => {
     return min.toString()+" – "+maxx.toString()+" ans";
+}
+
+const opt = (titre) => {
+    return {
+        type: 'bar',
+        indexAxis: 'x',
+        elements: {
+            bar: {
+                borderWidth: 3,
+                fill: true
+            }
+        },
+        responsive: true,
+        stacked: false,
+        plugins: {
+            title: {
+                text: titre,
+                display: true
+            },
+            legend: {
+                position: 'bottom',
+                display: true
+            }
+        }
+    }
 }
 
 module.exports = { load, shori };

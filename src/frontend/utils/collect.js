@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const collect = (url) => {
+let collect;
+
+export default collect = (url) => {
     try{
         const response = axios({
             url: "http://localhost:8080/"+url,
@@ -10,6 +12,4 @@ const collect = (url) => {
     }catch(e){
         console.log(e);
     }
-}
-
-export { collect };
+};

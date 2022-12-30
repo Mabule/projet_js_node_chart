@@ -15,6 +15,7 @@ const parse = async (data) => {
             console.log(err);
         })
     }
+    console.log("All finished")
     return tab;
 }
 

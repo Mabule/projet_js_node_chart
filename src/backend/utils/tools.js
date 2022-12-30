@@ -6,7 +6,7 @@ const load = async(file) => {
     let tab = [];
     console.log("==========\nREADING "+file);
     const readable = fs.createReadStream(file, {encoding: 'utf8'});
-    tab = await parse((await readableToString(readable)).split('\n').slice(0,3000));
+    tab = await parse((await readableToString(readable)).split('\n').slice(0, 3000));
     
     readable.on('close', () => {
         console.log("File "+file+" readed !")

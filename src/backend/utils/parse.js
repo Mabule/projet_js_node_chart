@@ -1,3 +1,4 @@
+//Fonction pour démultiplier le processus de lecture des lignes du fichier de données
 const parse = async (data) => {
     let tab = [];
     for (const index in data) {
@@ -15,10 +16,10 @@ const parse = async (data) => {
             console.log(err);
         })
     }
-    console.log("All finished")
     return tab;
 }
 
+//Fonction extraire les informations d'une ligne du fichier de données
 function process(line = ""){
     const nom = line.split('*')[0];
     const prenom = line.split('*')[1].split('/')[0];

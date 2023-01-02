@@ -4,7 +4,14 @@ interface selectionProps{
     tranche: number;
 }
 
+//Composant React correspondant au menu de selection de la tranche d'âge lors de l'affichage des morts par âge
 export default function Selection({ change, config, tranche }: selectionProps){
+
+    try{
+        //@ts-ignore
+        document.querySelector('#select').value = 10;
+    }catch(e){ }
+
     return(
         <div id="title">
             Sélection de la tranche d'âge&ensp;

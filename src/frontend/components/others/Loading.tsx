@@ -1,3 +1,4 @@
+//Composant React pour afficher un gif pendant le chargement des données lors de la lecture d'un fichier
 export default function Loading() {
     return (
         <img 

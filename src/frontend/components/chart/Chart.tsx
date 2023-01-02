@@ -25,6 +25,7 @@ interface chartProps{
     options: any;
 }
 
+//Composant React pour le graphique de ChartJs
 export default function Chart({ labels, donnees, options }: chartProps){
 
     const data = {

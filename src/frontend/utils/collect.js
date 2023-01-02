@@ -1,8 +1,6 @@
 import axios from 'axios';
 
-let collect;
-
-export default collect = (url) => {
+export default function collect(url){
     try{
         const response = axios({
             url: "http://localhost:8080/"+url,

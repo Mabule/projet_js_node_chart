@@ -2,18 +2,28 @@ const fs = require('fs');
 const parse = require('./parse');
 const config = require('../env.json');
 
-const load = async(file) => {
+//Fonction pour lire un fichier
+async function load(file, size = null){
     let tab = [];
     console.log("==========\nREADING "+file);
     const readable = fs.createReadStream(file, {encoding: 'utf8'});
-    tab = await parse((await readableToString(readable)).split('\n').slice(0, 3000));
+    let start = new Date().getTime();
+    if(size !== null)
+        tab = await parse((await readableToString(readable)).split('\n').slice(0, size));
+    else
+        tab = await parse((await readableToString(readable)).split('\n'));
     
     readable.on('close', () => {
         console.log("File "+file+" readed !")
     });
-    return tab;
+
+    if(size !== null)
+        return (new Date().getTime()-start);
+    else
+        return tab;
 }
 
+//Fonction pour transformer un chunk en string
 async function readableToString(readable) {
     let result = '';
     for await (const chunk of readable) {
@@ -22,8 +32,8 @@ async function readableToString(readable) {
     return result;
 }
 
-
-const shori = (tab, filter, query) => {
+//Fonction de mappage entre les requêtes et le traitement associé
+function shori(tab, filter, query){
     let res = [];
     let options;
     let status = 1;
@@ -57,6 +67,7 @@ const shori = (tab, filter, query) => {
     return [res, options, status];
 }
 
+//Fonction pour le traitement suivant la tranche d'âge
 function ageFilter(tab, res, query){
     let maxx = 0;
     tab.forEach(el => {
@@ -68,13 +79,14 @@ function ageFilter(tab, res, query){
             res[age].lst.push(el);
             if(age > maxx) maxx = age;
         }catch (e) {
-            console.log("error for: "+age);
+            // console.log("error for: "+age);
         }
     })
     res = res.filter(el => el.nb > 0);
     return treatment(res, maxx, parseInt(query.tranche));
 }
 
+//Fonction pour le traitement suivant le pays de mort
 function countryFilter(tab){
     let countries = [], nb_people = [], i = 0, max = 0, index_max;
     tab.forEach(el => {
@@ -98,7 +110,8 @@ function countryFilter(tab){
     return [nb_people, countries];
 }
 
-function dateFilter(tab, query){
+//Fonction pour le traitement suivant la date de mort
+function dateFilter(tab){
     let dates = [];
     let nb_people = [];
     tab.sort((a,b) => new Date(a['date de décès']).getTime() - new Date(b['date de décès']).getTime());
@@ -118,10 +131,12 @@ function dateFilter(tab, query){
     return [nb_people, dates];
 }
 
+//Fonction de calcul d'âge
 function calcAge(born, death){
     return new Date(new Date(death[0], death[1], death[2]).getTime() - new Date( born[0], born[1], born[2]).getTime()).getUTCFullYear()-1970;
 }
 
+//Fonction en lien avec le traitement suivant la tranche d'âge
 function treatment(tab, maxx, tranche){
     let res = [], labels = [];
     let nb_colonne = Math.ceil(maxx/tranche);
@@ -153,11 +168,13 @@ function treatment(tab, maxx, tranche){
     return [res, labels];
 }
 
-const s = (min, maxx) => {
+//Fonction pour formatter une chaîne de caractère
+function s(min, maxx){
     return min.toString()+" – "+maxx.toString()+" ans";
 }
 
-const opt = (titre) => {
+//Fonction renvoyant les options pour construire le graphique avec ChartJs
+function opt(titre){
     return {
         type: 'bar',
         indexAxis: 'x',

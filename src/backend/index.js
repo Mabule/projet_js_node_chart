@@ -1,29 +1,40 @@
 const express = require('express');
+const cors = require('cors');
+
+const config = require('./env.json');
+const { load, shori } = require('./utils/tools');
+
 const app = express();
 const port = 8080;
-const { load, shori } = require('./utils/tools');
-const config = require('./env.json');
 let datas = undefined;
 
-app.use((_req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "http://localhost:3000/");
-    res.header("Vary", "Origin");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
+//Protection vis-à-vis de la source de la requête
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true
+}));
 
+//Route primaire de test
 app.get('/', (_req, res) => {
     res.send({message: "test"})
 })
 
+//Route pour afficher le temps de lecture du fichier suivant un certain nombre de ligne
+app.get('/read', async (req, res) => {
+    const time = await load(req.query.file, req.query.size);
+    res.send(`Pour lire ${req.query.size} lignes l'algorithme a mit ${time}ms, soit ${time/req.query.size}µs par ligne`);
+});
+
+//Route pour charger les données
 app.get('/getFile', async (req, res) => {
     if(datas === undefined)
         datas = await load(req.query.file);
     res.send({ datas });
 });
 
+//Route principale pour toutes les requêtes de l'application | sécurisation de la requête via un status de retour
 app.get('/filterOn', async (req, res) => {
-    let executed = [null, null], options = null, status, tab; 
+    let executed = [null, null], options = null, status; 
     if(config.files.includes(req.query.file)){
         if(datas === undefined)
             datas = await load(req.query.file);
@@ -34,6 +45,7 @@ app.get('/filterOn', async (req, res) => {
     res.send({tab: executed[0], labels: executed[1], options, status});
 });
 
+//Route en cours de développement afin de chercher un individu précis en fonction de son : nom, prénom et/ou date de décès
 app.get('/get', async (req, res) => {
 
     const restrict = req.query.restrict;
@@ -61,6 +73,7 @@ app.get('/get', async (req, res) => {
     res.send(tab);
 });
 
+//Ouverture du port à l'écoute des requêtes
 app.listen(port, () => {
     console.log("Écoute sur le port: "+port);
 });

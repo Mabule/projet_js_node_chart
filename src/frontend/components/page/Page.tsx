@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from 'react';
+
 import Chart from '../chart/Chart';
 import Selection from "./Selection";
 import collect from "../../utils/collect";
@@ -10,6 +11,7 @@ interface pageProps{
     id: string;
 }
 
+//Composant React pour afficher l'encart principal où se trouvera le graphique
 export default function Page({ data, id }: pageProps){
 
     const [tab, setTab] = useState(data.tab);
@@ -17,9 +19,14 @@ export default function Page({ data, id }: pageProps){
     const [tra, setTra] = useState(10);
     const [loaded, setLoaded] = useState(true);
     
-    var change = async (param = null) => {
+    useEffect(() => {
+        setTab(data.tab);
+        setLabels(data.labels);
+    }, [data, id])
+    
+
+    async function change(param = null){
         if(loaded){
-            
             if(param !== null)
             //@ts-ignore
                 document.querySelector('#select').value = param;

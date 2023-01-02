@@ -6,6 +6,7 @@ interface menuProps{
     setId: any;
 }
 
+//Composant React pour le menu du site
 export default function Menu({ setUrl, setId }: menuProps){
 
     function swape(name: string){
